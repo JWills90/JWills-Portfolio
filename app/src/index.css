@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #0b0b0c;
+  --ink-2: #0b0b0c;
+  --paper: #f2f0eb;
+  --paper-dim: #9d9b96;
+  --blue: #2979ff;
+  --green: #00c853;
+  --line: rgba(242, 240, 235, 0.12);
+}
+
+@layer base {
+  html {
+    scroll-behavior: auto;
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: "Space Grotesk", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--blue);
+    color: #0b0b0c;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(242, 240, 235, 0.25);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(242, 240, 235, 0.45);
+  }
+
+  @media (pointer: fine) {
+    body.cursor-on,
+    body.cursor-on a,
+    body.cursor-on button {
+      cursor: none;
+    }
+  }
+}
+
+@layer utilities {
+  .font-mono-tech {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+  .text-outline {
+    -webkit-text-stroke: 1px rgba(242, 240, 235, 0.55);
+    color: transparent;
+  }
+  .text-outline-blue {
+    -webkit-text-stroke: 1px var(--blue);
+    color: transparent;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  .sweep-ease {
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* ---- film grain / scanlines overlay ---- */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: -100%;
+  z-index: 90;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  animation: grain-shift 0.9s steps(4) infinite;
+}
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2%, 3%); }
+  50% { transform: translate(3%, -2%); }
+  75% { transform: translate(-3%, -3%); }
+  100% { transform: translate(2%, 2%); }
+}
+
+/* ---- marquee ---- */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee-left var(--marquee-dur, 24s) linear infinite;
+}
+
+/* ---- blinking cursor / status dot ---- */
+@keyframes blink {
+  0%, 60% { opacity: 1; }
+  61%, 100% { opacity: 0.15; }
+}
+.blink {
+  animation: blink 1.4s steps(1) infinite;
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.spin-slow {
+  animation: spin-slow 14s linear infinite;
+}
+
+/* ---- custom cursor ---- */
+#cursor-dot,
+#cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  pointer-events: none;
+  border-radius: 9999px;
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+#cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: #fff;
+}
+#cursor-ring {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
+    height 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
+    background-color 0.35s, border-color 0.35s;
+}
+#cursor-ring.is-active {
+  width: 84px;
+  height: 84px;
+  background: #fff;
+}
+#cursor-ring .cursor-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: #000;
+  opacity: 0;
+  transition: opacity 0.25s;
+  text-transform: uppercase;
+}
+#cursor-ring.is-active .cursor-label {
+  opacity: 1;
+}
+@media (pointer: coarse) {
+  #cursor-dot,
+  #cursor-ring {
+    display: none;
+  }
+}
+
+/* ---- outlined hover link (vertical slide duplicate) ---- */
+.scrl-link {
+  display: inline-block;
+  overflow: hidden;
+  height: 1.25em;
+  line-height: 1.25em;
+}
+.scrl-link > span {
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.66, 0, 0.15, 1);
+}
+.scrl-link:hover > span,
+.scrl-link:focus-visible > span {
+  transform: translateY(-1.25em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .grain::after,
+  .spin-slow {
+    animation: none !important;
+  }
+}
