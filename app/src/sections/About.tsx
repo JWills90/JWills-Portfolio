@@ -18,7 +18,7 @@ export default function About() {
         <div className="md:col-span-7">
           <h2 className="text-[clamp(2.2rem,5.5vw,4.5rem)] font-medium leading-[1.02] tracking-tight">
             <span className="block">
-              <SplitReveal text="Good infrastructure" />
+              <SplitReveal text="Good tinfrastructure" />
             </span>
             <span className="block">
               <SplitReveal text="starts with" delay={0.12} />
