@@ -13,6 +13,7 @@ import Contact from "../sections/Contact";
 
 export default function Home() {
   const [started, setStarted] = useState(false);
+  const [flatView, setFlatView] = useState(false);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -49,7 +50,11 @@ export default function Home() {
       <Cursor />
       <Nav />
       <main>
-        <Hero started={started} />
+        <Hero
+          started={started}
+          flatView={flatView}
+          onToggleView={() => setFlatView((current) => !current)}
+        />
         <Marquee />
         <About />
         <Projects />
