@@ -6,6 +6,11 @@ import * as THREE from "three";
 const isCoarse =
   typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
 
+function seededRandom(seed: number) {
+  const value = Math.sin(seed * 12.9898) * 43758.5453;
+  return value - Math.floor(value);
+}
+
 /* ---------- GLSL ---------- */
 
 const noiseGLSL = /* glsl */ `
@@ -162,7 +167,7 @@ function Rings() {
 
 function Particles() {
   const ref = useRef<THREE.Points>(null);
-  const count = isCoarse ? 900 : 2600;
+  const count = isCoarse ? 450 : 2600;
   const { positions, colors } = useMemo(() => {
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
@@ -172,13 +177,13 @@ function Particles() {
       new THREE.Color("#f2f0eb"),
     ];
     for (let i = 0; i < count; i++) {
-      const r = 3.2 + Math.random() * 6.5;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
+      const r = 3.2 + seededRandom(i * 4 + 1) * 6.5;
+      const theta = seededRandom(i * 4 + 2) * Math.PI * 2;
+      const phi = Math.acos(2 * seededRandom(i * 4 + 3) - 1);
       positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta) * 0.6;
       positions[i * 3 + 2] = r * Math.cos(phi);
-      const c = palette[Math.floor(Math.random() * palette.length)];
+      const c = palette[Math.floor(seededRandom(i * 4 + 4) * palette.length)];
       colors[i * 3] = c.r;
       colors[i * 3 + 1] = c.g;
       colors[i * 3 + 2] = c.b;
@@ -245,9 +250,9 @@ function Rig({ children }: { children: React.ReactNode }) {
 export default function HeroScene() {
   return (
     <Canvas
-      dpr={[1, 1.8]}
+      dpr={isCoarse ? 1 : [1, 1.5]}
       camera={{ position: [0, 0, 6.2], fov: 42 }}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      gl={{ antialias: !isCoarse, alpha: true, powerPreference: "high-performance" }}
       style={{ position: "absolute", inset: 0 }}
     >
       <Rig>

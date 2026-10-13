@@ -6,6 +6,33 @@ import { profile } from "../data/portfolio";
 
 const HeroScene = lazy(() => import("../components/three/HeroScene"));
 
+type NetworkInformation = {
+  saveData?: boolean;
+  effectiveType?: string;
+};
+
+const shouldLoadScene = (() => {
+  if (typeof window === "undefined" || typeof navigator === "undefined") return false;
+
+  const connection = (navigator as Navigator & { connection?: NetworkInformation }).connection;
+  const slowConnection = ["slow-2g", "2g", "3g"].includes(connection?.effectiveType ?? "");
+
+  return (
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+    !connection?.saveData &&
+    !slowConnection
+  );
+})();
+
+function ScenePlaceholder() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div className="absolute left-[58%] top-[38%] aspect-square w-[min(70vw,34rem)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(41,121,255,0.23)_0%,rgba(0,200,83,0.1)_35%,transparent_70%)] blur-xl" />
+      <div className="absolute left-[58%] top-[38%] aspect-square w-[min(48vw,24rem)] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[rgba(41,121,255,0.22)]" />
+    </div>
+  );
+}
+
 type HeroProps = {
   started: boolean;
   flatView: boolean;
@@ -17,9 +44,13 @@ export default function Hero({ started, flatView }: HeroProps) {
       {/* 3D layer */}
       {!flatView && (
         <div className="absolute inset-0">
-          <Suspense fallback={null}>
-            <HeroScene />
-          </Suspense>
+          {shouldLoadScene ? (
+            <Suspense fallback={<ScenePlaceholder />}>
+              <HeroScene />
+            </Suspense>
+          ) : (
+            <ScenePlaceholder />
+          )}
         </div>
       )}
 
