@@ -9,10 +9,9 @@ const HeroScene = lazy(() => import("../components/three/HeroScene"));
 type HeroProps = {
   started: boolean;
   flatView: boolean;
-  onToggleView: () => void;
 };
 
-export default function Hero({ started, flatView, onToggleView }: HeroProps) {
+export default function Hero({ started, flatView }: HeroProps) {
   return (
     <section id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden">
       {/* 3D layer */}
@@ -26,14 +25,6 @@ export default function Hero({ started, flatView, onToggleView }: HeroProps) {
 
       {/* Corner HUD labels */}
       <div className="font-mono-tech pointer-events-none absolute inset-x-5 top-24 z-10 flex justify-between text-[10px] uppercase tracking-[0.22em] text-[#9d9b96] md:inset-x-10">
-        <button
-          type="button"
-          aria-pressed={flatView}
-          onClick={onToggleView}
-          className="pointer-events-auto min-h-[44px] border border-[rgba(242,240,235,0.25)] px-3 text-[10px] tracking-[0.16em] text-[#f2f0eb] transition-colors hover:border-[#2979FF] hover:text-[#2979FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2979FF]"
-        >
-          {flatView ? "Enable 3D view" : "View in 2D"}
-        </button>
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: started ? 1 : 0 }}

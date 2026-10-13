@@ -11,7 +11,12 @@ const links = [
   { label: "Contact", href: "#contact" },
 ];
 
-export default function Nav() {
+type NavProps = {
+  flatView: boolean;
+  onToggleView: () => void;
+};
+
+export default function Nav({ flatView, onToggleView }: NavProps) {
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollYProgress } = useScroll();
@@ -50,6 +55,15 @@ export default function Nav() {
         style={{ paddingTop: "env(safe-area-inset-top)" }}
       >
         <div className="flex items-center justify-between px-5 py-4 md:px-10">
+          <button
+            type="button"
+            aria-pressed={flatView}
+            onClick={onToggleView}
+            className="font-mono-tech min-h-[44px] border border-[rgba(242,240,235,0.25)] px-3 text-[10px] uppercase tracking-[0.16em] text-[#f2f0eb] transition-colors hover:border-[#2979FF] hover:text-[#2979FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2979FF]"
+          >
+            {flatView ? "Enable 3D view" : "View in 2D"}
+          </button>
+
           <nav className="ml-auto hidden items-center gap-8 md:flex">
             {links.map((l, i) => (
               <a

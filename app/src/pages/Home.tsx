@@ -48,12 +48,14 @@ export default function Home() {
     <div className="grain relative">
       <Preloader onDone={() => setStarted(true)} />
       <Cursor />
-      <Nav />
+      <Nav
+        flatView={flatView}
+        onToggleView={() => setFlatView((current) => !current)}
+      />
       <main>
         <Hero
           started={started}
           flatView={flatView}
-          onToggleView={() => setFlatView((current) => !current)}
         />
         <Marquee />
         <About />
