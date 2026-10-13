@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { profile } from "../data/portfolio";
 
 export default function Preloader({ onDone }: { onDone: () => void }) {
   const [pct, setPct] = useState(0);
@@ -29,7 +30,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
           transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
         >
           <div className="font-mono-tech flex justify-between text-[11px] uppercase tracking-[0.2em] text-[#9d9b96]">
-            <span>Alex Chen — Portfolio</span>
+            <span>{profile.name} — Portfolio</span>
             <span className="blink text-[#00C853]">■ Loading assets</span>
           </div>
           <div className="flex items-end justify-between">
