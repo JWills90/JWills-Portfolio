@@ -46,16 +46,6 @@ function Card({
               {project.title}
             </h3>
           </div>
-          <a
-            href={project.link}
-            data-cursor="Open"
-            aria-label={`Open ${project.title}`}
-            className="group hidden h-16 w-16 shrink-0 items-center justify-center border border-[rgba(242,240,235,0.25)] transition-colors duration-300 hover:bg-[#f2f0eb] md:flex"
-          >
-            <span className="text-2xl transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-black">
-              ↗
-            </span>
-          </a>
         </header>
 
         <div className="mt-10 grid gap-8 md:grid-cols-12 md:items-end">
@@ -73,14 +63,32 @@ function Card({
                 </span>
               ))}
             </div>
-            <a
-              href={project.link}
-              data-cursor="Open"
-              className="font-mono-tech mt-6 inline-flex min-h-[48px] items-center gap-3 text-[11px] uppercase tracking-[0.2em] transition-colors duration-300 md:hidden"
-              style={{ color: project.accent }}
-            >
-              View project <span>↗</span>
-            </a>
+            {(project.repositoryUrl || project.architectureUrl) && (
+              <div className="mt-6 flex flex-wrap gap-3">
+                {project.repositoryUrl && (
+                  <a
+                    href={project.repositoryUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    data-cursor="Code"
+                    className="font-mono-tech inline-flex min-h-[48px] items-center gap-3 bg-[#f2f0eb] px-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-black transition-colors hover:bg-[#2979FF] hover:text-white"
+                  >
+                    View code <span>↗</span>
+                  </a>
+                )}
+                {project.architectureUrl && (
+                  <a
+                    href={project.architectureUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    data-cursor="Architecture"
+                    className="font-mono-tech inline-flex min-h-[48px] items-center gap-3 border border-[rgba(242,240,235,0.3)] px-5 text-[11px] uppercase tracking-[0.16em] transition-colors hover:border-[#f2f0eb]"
+                  >
+                    Architecture <span>↗</span>
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </motion.article>

@@ -8,7 +8,7 @@ export const profile = {
   email: "john_williams_400@hotmail.co.uk",
   availability: "Open to Cloud & IT Support roles — 2026",
   socials: [
-    { label: "GitHub", href: "https://github.com" },
+    { label: "GitHub", href: "https://github.com/JWills90" },
     { label: "LinkedIn", href: "https://linkedin.com" },
     { label: "Résumé (PDF)", href: "#" },
   ],
@@ -41,7 +41,8 @@ export type Project = {
   description: string;
   stack: string[];
   accent: string;
-  link: string;
+  repositoryUrl?: string;
+  architectureUrl?: string;
 };
 
 export const projects: Project[] = [
@@ -53,7 +54,7 @@ export const projects: Project[] = [
       "Securely hosted a static 3D portfolio on AWS S3, fronted by CloudFront CDN with Origin Access Control (OAC) and free SSL/TLS encryption.",
     stack: ["AWS S3", "CloudFront", "OAC", "Three.js"],
     accent: "#2979FF",
-    link: "#",
+    repositoryUrl: "https://github.com/JWills90/JWills-Portfolio",
   },
   {
     index: "02",
@@ -63,7 +64,6 @@ export const projects: Project[] = [
       "Executed automated security auditing and vulnerability scanning on Oracle Cloud Infrastructure using Lynis, Trivy, and Docker containers.",
     stack: ["Oracle Cloud", "Linux", "Lynis", "Docker"],
     accent: "#00C853",
-    link: "#",
   },
   {
     index: "03",
@@ -73,7 +73,6 @@ export const projects: Project[] = [
       "Programmed an interactive Python voice and text assistant leveraging Google Gemini API integrations for task automation.",
     stack: ["Python", "Gemini API", "REST API", "Linux"],
     accent: "#2979FF",
-    link: "#",
   },
   {
     index: "04",
@@ -83,7 +82,6 @@ export const projects: Project[] = [
       "Configured an Ubuntu Server VM on VirtualBox with static Netplan IP addressing, Docker container deployment, and GitHub tracking.",
     stack: ["Ubuntu", "VirtualBox", "Docker", "Netplan"],
     accent: "#00C853",
-    link: "#",
   },
 ];
 
