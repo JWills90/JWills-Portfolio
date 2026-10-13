@@ -7,6 +7,7 @@ import Hero from "../sections/Hero";
 import Marquee from "../sections/Marquee";
 import About from "../sections/About";
 import Projects from "../sections/Projects";
+import Infrastructure from "../sections/Infrastructure";
 import Certifications from "../sections/Certifications";
 import Skills from "../sections/Skills";
 import Experience from "../sections/Experience";
@@ -61,6 +62,7 @@ export default function Home() {
         <Marquee />
         <About />
         <Projects />
+        <Infrastructure />
         <Certifications />
         <Skills />
         <Experience />
